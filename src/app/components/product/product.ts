@@ -8,6 +8,6 @@ import {
   styleUrls: ['./product.css'],
   inputs: ["product"]
 })
-export class Product {
+export class ProductComponent {
 
 }

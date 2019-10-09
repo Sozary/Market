@@ -14,7 +14,7 @@ import {
 
 import {
   AppComponent
-} from './app.component'
+} from './app'
 
 @NgModule({
   declarations: [AppComponent, Product],
