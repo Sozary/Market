@@ -12,8 +12,12 @@ export default class Customer {
     this.featured = []
   }
   public update(product: IProduct) {
+
     this.featured.push(product)
-    this.point = computeBarycenter(this.featured)
+    if (this.point)
+      this.point = computeBarycenter(this.featured)
+    else
+      this.point = product.point
   }
 
 }

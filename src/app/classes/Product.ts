@@ -36,10 +36,9 @@ export function computeBarycenter(products: IProduct[]): IPoint {
       res[k] += product.point[k]
     })
   })
-  products.forEach(product => {
-    Object.keys(res).forEach(k => {
-      res[k] /= 7
-    })
+
+  Object.keys(res).forEach(k => {
+    res[k] /= products.length
   })
   return res
 }
