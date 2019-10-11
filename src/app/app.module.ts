@@ -8,16 +8,17 @@ import {
 import {
   BrowserAnimationsModule
 } from '@angular/platform-browser/animations';
-import {
-  Product
-} from "./components/product/product"
+
 
 import {
   AppComponent
 } from './app'
+import {
+  ProductComponent
+} from './components/product/product';
 
 @NgModule({
-  declarations: [AppComponent, Product],
+  declarations: [AppComponent, ProductComponent],
   imports: [BrowserModule, BrowserAnimationsModule, ],
   providers: [],
   bootstrap: [AppComponent],

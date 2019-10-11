@@ -1,5 +1,6 @@
 import {
-  Component
+  Component,
+  OnDestroy
 } from '@angular/core';
 
 @Component({
@@ -8,6 +9,8 @@ import {
   styleUrls: ['./product.css'],
   inputs: ["product"]
 })
-export class ProductComponent {
-
+export class ProductComponent implements OnDestroy {
+  ngOnDestroy(): void {
+    // destroy my observables
+  }
 }

@@ -4,9 +4,11 @@ import {
 } from '@angular/core';
 import * as products_s from "./../assets/products_s.json"
 import Customer from './classes/Customer.js';
-import
-IProduct
-from './classes/Product.js';
+import {
+  IProduct,
+  ProductManager
+} from './classes/Product.js';
+
 
 @Component({
   selector: 'app-root',
@@ -14,14 +16,21 @@ from './classes/Product.js';
   styleUrls: ['./app.css']
 })
 export class AppComponent implements OnInit {
-  products: IProduct[]
+  product_manager: ProductManager
   customer: Customer
-  constructor() {
-    this.products = []
+
+  get products(): IProduct[] {
+    return this.product_manager.getNearestProducts(this.customer, 5)
+  }
+  public selectProduct(product): void {
+    this.customer.update(product)
+  }
+  ngOnInit() {
+    this.product_manager = new ProductManager()
     this.customer = new Customer()
 
     products_s.default.data.forEach(element => {
-      this.products.push({
+      this.product_manager.addProduct({
         name: element.name,
         price: element.price,
         point: {
@@ -35,12 +44,5 @@ export class AppComponent implements OnInit {
         }
       })
     });
-  }
-
-  public selectProduct(product): void {
-    this.customer.update(product)
-  }
-  ngOnInit() {
-
   }
 }
