@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   customer: Customer
 
   get products(): IProduct[] {
-    return this.product_manager.getNearestProducts(this.customer, 5)
+    return this.product_manager.getNearestProducts(this.customer, 10)
   }
   public selectProduct(product): void {
     this.customer.update(product)
