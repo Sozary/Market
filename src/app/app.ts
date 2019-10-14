@@ -2,8 +2,8 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import * as product_s from "./../assets/products_s.json"
-import * as product_f from "./../assets/products_f.json"
+import product_s from "../assets/products_s"
+import product_f from "../assets/products_f"
 import Customer from './classes/Customer.js';
 import {
   IProduct,

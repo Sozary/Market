@@ -1,4 +1,4 @@
-{
+export default {
   "data": [{
     "name": "Pizza",
     "price": 13.4
