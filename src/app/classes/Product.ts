@@ -1,5 +1,4 @@
 import Customer from "./Customer";
-import * as google from 'google-parser'
 export type DistanceType = {
   distance: number
   product: IProduct
@@ -54,8 +53,6 @@ export class ProductManager {
   }
   public async loadPics() {
     for (let product of this.products) {
-      let res = await google.img(product.name)
-      console.log(res);
 
     }
   }
