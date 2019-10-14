@@ -3,6 +3,7 @@ import {
   OnInit
 } from '@angular/core';
 import product_s from "./../assets/products_s.json"
+import product_f from "./../assets/products_f.json"
 import Customer from './classes/Customer.js';
 import {
   IProduct,
@@ -22,12 +23,23 @@ export class AppComponent implements OnInit {
   get products(): IProduct[] {
     return this.product_manager.getNearestProducts(this.customer, 10)
   }
+  get floats(): IProduct[] {
+    return this.product_manager.getNearestProducts(this.customer, 10, true)
+  }
   public selectProduct(product): void {
     this.customer.update(product)
   }
   ngOnInit() {
     this.product_manager = new ProductManager()
-    this.customer = new Customer()
+    this.customer = new Customer(this.product_manager)
+
+    product_f.data.forEach(element => {
+      this.product_manager.addFloatProduct({
+        name: element.name,
+        price: element.price,
+        point: undefined
+      })
+    })
 
     product_s.data.forEach(element => {
       this.product_manager.addProduct({

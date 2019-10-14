@@ -12,7 +12,13 @@
   </div>
   <div class="row">
     <div class="col">
-      <product *ngFor="let product of products" [product]="product" (click)="selectProduct(product)"></product>
+      <product *ngFor="let product of products" [type]="'primary'" [product]="product" (click)="selectProduct(product)">
+      </product>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <product *ngFor="let float of floats" [type]="'info'" [product]="float" (click)="selectProduct(float)"></product>
     </div>
   </div>
 </div>

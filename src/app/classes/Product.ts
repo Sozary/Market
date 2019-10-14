@@ -45,26 +45,42 @@ export function computeBarycenter(products: IProduct[]): IPoint {
 
 export class ProductManager {
   public products: IProduct[]
-  constructor(products ? : IProduct[]) {
 
+  public floats: IProduct[]
+  constructor(products ? : IProduct[], floats ? : IProduct[]) {
     this.products = products ? products : []
+    this.floats = floats ? floats : []
   }
 
   public addProduct(product: IProduct) {
     this.products.push(product)
   }
 
-  public getNearestProducts(customer: Customer, limit: number = 10) {
+  public updateProductIfFloat(product: IProduct, customer_point: IPoint): boolean {
+    let res = this.floats.filter(float => float.name === product.name)
+    if (res.length > 0) {
+      res[0].point = customer_point
+      return true
+    }
+    return false
+  }
+  public addFloatProduct(float: IProduct) {
+    this.floats.push(float)
+  }
+
+  public getNearestProducts(customer: Customer, limit: number = 10, floating: boolean = false) {
+
     if (customer.point === undefined)
-      return this.products.slice(0, limit)
-    return this.getDistanceMap(customer.point).map(distance => {
+      return (floating ? this.floats : this.products).slice(0, limit)
+    return this.getDistanceMap(customer.point, floating).map(distance => {
       return distance.product
     }).slice(0, limit)
   }
-  private getDistanceMap(point_a: IPoint): Array < DistanceType > {
+  private getDistanceMap(point_a: IPoint, floating: boolean): Array < DistanceType > {
     let distances: Array < DistanceType > = []
+    let data = floating ? this.floats : this.products
 
-    this.products.forEach(product => {
+    data.forEach(product => {
       distances.push({
         distance: this.getDistance(point_a, product.point),
         product: product
@@ -72,25 +88,28 @@ export class ProductManager {
     })
     for (let i = 0; i < distances.length; i++) {
       for (let j = i; j < distances.length; j++) {
-        if (distances[i].distance > distances[j].distance) {
-          let tmp = distances[j]
-          distances[j] = distances[i]
-          distances[i] = tmp
-        }
+        if (distances[i] && distances[j])
+          if (distances[i].distance > distances[j].distance) {
+            let tmp = distances[j]
+            distances[j] = distances[i]
+            distances[i] = tmp
+          }
       }
     }
     return distances
   }
 
   private getDistance(point_a: IPoint, point_b: IPoint): number {
-    return Math.sqrt(
-      Math.pow(point_a.homme - point_b.homme, 2) +
-      Math.pow(point_a.femme - point_b.femme, 2) +
-      Math.pow(point_a.csp_moins - point_b.csp_moins, 2) +
-      Math.pow(point_a.csp_plus - point_b.csp_plus, 2) +
-      Math.pow(point_a.moins_25 - point_b.moins_25, 2) +
-      Math.pow(point_a.moins_50 - point_b.moins_50, 2) +
-      Math.pow(point_a.plus_50 - point_b.plus_50, 2))
+    if (point_a && point_b)
+      return Math.sqrt(
+        Math.pow(point_a.homme - point_b.homme, 2) +
+        Math.pow(point_a.femme - point_b.femme, 2) +
+        Math.pow(point_a.csp_moins - point_b.csp_moins, 2) +
+        Math.pow(point_a.csp_plus - point_b.csp_plus, 2) +
+        Math.pow(point_a.moins_25 - point_b.moins_25, 2) +
+        Math.pow(point_a.moins_50 - point_b.moins_50, 2) +
+        Math.pow(point_a.plus_50 - point_b.plus_50, 2))
+    return undefined
   }
 
 
