@@ -55,7 +55,9 @@ export class ProductManager {
   public addProduct(product: IProduct) {
     this.products.push(product)
   }
-
+  public isFloat(name: string): boolean {
+    return this.floats.filter(f => f.name == name).length > 0
+  }
   public updateProductIfFloat(product: IProduct, customer_point: IPoint): boolean {
     let res = this.floats.filter(float => float.name === product.name)
     if (res.length > 0) {
@@ -68,15 +70,57 @@ export class ProductManager {
     this.floats.push(float)
   }
 
-  public getNearestProducts(customer: Customer, limit: number = 10, floating: boolean = false) {
+  public getNearestProducts(customer: Customer, limit: number = 10) {
 
     if (customer.point === undefined)
-      return (floating ? this.floats : this.products).slice(0, limit)
-    return this.getDistanceMap(customer.point, floating).map(distance => {
+      return this.insertFloats(this.products.slice(0, limit), customer)
+    return this.insertFloats(this.getDistanceMap(customer.point).map(distance => {
       return distance.product
-    }).slice(0, limit)
+    }).slice(0, limit), customer)
   }
-  private getDistanceMap(point_a: IPoint, floating: boolean): Array < DistanceType > {
+
+  public insertFloats(products: IProduct[], customer: Customer): IProduct[] {
+    let res: IProduct[] = []
+
+    let number_to_insert = Math.floor(Math.random() * products.length / 2.5) + 1;
+    let number_to_insert_index = 0
+    let product_index = 0
+    let float_distances = this.getDistanceMap(customer.point, true)
+    let defined_distance = float_distances.filter(f => f.distance != undefined)
+    if (defined_distance.length === 0) {
+      float_distances = this.mixFloats(float_distances)
+    }
+
+    for (let i = 0; i < products.length; i++) {
+      if (Math.random() > .3 && number_to_insert_index < number_to_insert) {
+        res.push(float_distances[number_to_insert_index++].product)
+        number_to_insert--
+      } else {
+        res.push(products[product_index++])
+      }
+    }
+
+    return res
+  }
+  mixFloats(float_distances: DistanceType[]): DistanceType[] {
+    var currentIndex = float_distances.length,
+      temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = float_distances[currentIndex];
+      float_distances[currentIndex] = float_distances[randomIndex];
+      float_distances[randomIndex] = temporaryValue;
+    }
+    return float_distances
+  }
+  private getDistanceMap(point_a: IPoint, floating: boolean = false): Array < DistanceType > {
     let distances: Array < DistanceType > = []
     let data = floating ? this.floats : this.products
 

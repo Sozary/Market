@@ -11,26 +11,33 @@
     </div>
   </div>
   <div class="row">
-    <div class="col">
-      <h3 class="h4 text-gray-800">Produits stables</h3>
+    <div class=" col-xl-8 col-md-7 ">
+      <div class="row">
+        <div class="col">
+          <h3>Liste des produits</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <product @products *ngFor="let product of products" [type]="product.float?'danger':'primary'"
+            [product]="product" (click)="selectProduct(product)">
+          </product>
+        </div>
+      </div>
+
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <product *ngFor="let product of products" [type]="'primary'" [product]="product" (click)="selectProduct(product)">
-      </product>
-    </div>
-  </div>
-  <hr>
-  <div class="row">
-    <div class="col">
-      <h3 class="h4 text-gray-800">Produits flottants</h3>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <product *ngFor="let float of floats" [type]="'danger'" [product]="float" (click)="selectProduct(float)">
-      </product>
+    <div class="col-xl-4 col-md-5">
+      <div class="row">
+        <div class="col">
+          <h3>Produit à l'honneur</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <product [product]="fav_product" [type]="'primary'"></product>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

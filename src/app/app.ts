@@ -2,30 +2,61 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import product_s from "./../assets/products_s.json"
-import product_f from "./../assets/products_f.json"
+import * as product_s from "./../assets/products_s.json"
+import * as product_f from "./../assets/products_f.json"
 import Customer from './classes/Customer.js';
 import {
   IProduct,
   ProductManager
 } from './classes/Product.js';
+import {
+  trigger,
+  transition,
+  style,
+  animate
+} from '@angular/animations';
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  styleUrls: ['./app.css']
+  styleUrls: ['./app.css'],
+  animations: [
+    trigger("products", [
+      transition(':enter', [
+        style({
+          opacity: '0'
+        }),
+        animate('.5s ease-out', style({
+          opacity: '1'
+        })),
+      ]),
+    ])
+
+  ]
 })
 export class AppComponent implements OnInit {
   product_manager: ProductManager
   customer: Customer
 
   get products(): IProduct[] {
-    return this.product_manager.getNearestProducts(this.customer, 10)
+    return this.product_manager.getNearestProducts(this.customer, 10).map(p => {
+      return {
+        ...p,
+        float: this.product_manager.isFloat(p.name)
+      }
+    })
   }
-  get floats(): IProduct[] {
-    return this.product_manager.getNearestProducts(this.customer, 10, true)
+
+  get fav_product(): IProduct {
+    return this.product_manager.getNearestProducts(this.customer, 10).map(p => {
+      return {
+        ...p,
+        float: this.product_manager.isFloat(p.name)
+      }
+    }).filter(e => !e.float)[0]
   }
+
   public selectProduct(product): void {
     this.customer.update(product)
   }
