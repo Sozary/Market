@@ -2,7 +2,7 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import * as products_s from "./../assets/products_s.json"
+import product_s from "./../assets/products_s.json"
 import Customer from './classes/Customer.js';
 import {
   IProduct,
@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
     this.product_manager = new ProductManager()
     this.customer = new Customer()
 
-    products_s.default.data.forEach(element => {
+    product_s.data.forEach(element => {
       this.product_manager.addProduct({
         name: element.name,
         price: element.price,
