@@ -12,13 +12,25 @@
   </div>
   <div class="row">
     <div class="col">
-      <product *ngFor="let product of products" [type]="'primary'" [product]="product" (click)="selectProduct(product)">
-      </product>
+      <h3 class="h4 text-gray-800">Produits stables</h3>
     </div>
   </div>
   <div class="row">
     <div class="col">
-      <product *ngFor="let float of floats" [type]="'info'" [product]="float" (click)="selectProduct(float)"></product>
+      <product *ngFor="let product of products" [type]="'primary'" [product]="product" (click)="selectProduct(product)">
+      </product>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col">
+      <h3 class="h4 text-gray-800">Produits flottants</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <product *ngFor="let float of floats" [type]="'danger'" [product]="float" (click)="selectProduct(float)">
+      </product>
     </div>
   </div>
 </div>
