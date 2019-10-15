@@ -16,15 +16,13 @@ export default class Customer {
     this.featured = []
   }
   public update(product: IProduct) {
-
     this.featured.push(product)
-    if (!this.product_manager_ctxt.updateProductIfFloat(product, this.point)) {
-      if (this.point)
-        this.point = computeBarycenter(this.featured)
-      else
-        this.point = product.point
-    }
-
+    if (this.point)
+      this.point = computeBarycenter(this.featured)
+    else
+      this.point = product.point
   }
-
+  public updateFloat(product: IProduct) {
+    this.product_manager_ctxt.updateFloat(product, this.point)
+  }
 }

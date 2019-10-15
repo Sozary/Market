@@ -35,47 +35,53 @@ import {
 
   ]
 })
-export class AppComponent implements OnInit {
-  product_manager: ProductManager
-  customer: Customer
+export class AppComponent {
+  public product_manager: ProductManager
+  public customer: Customer
+  public dom_ready: boolean = false
+  private product_limit: number = 10
 
-  get products(): IProduct[] {
-    return this.product_manager.getNearestProducts(this.customer, 10).map(p => {
-      return {
-        ...p,
-        float: this.product_manager.isFloat(p.name)
-      }
+  get numberClickedProduct(): number {
+    return this.customer.featured.length
+  }
+  get floats(): IProduct[] {
+    return this.product_manager.getNearestProducts(this.customer, this.product_limit, true).map(e => {
+      if (e.point)
+        Object.keys(e.point).forEach(k => Math.round(e.point[k]))
+      return e
     })
+  }
+  get products(): IProduct[] {
+    return this.product_manager.getNearestProducts(this.customer, this.product_limit)
   }
 
   get fav_product(): IProduct {
-    return this.product_manager.getNearestProducts(this.customer, 10).map(p => {
-      return {
-        ...p,
-        float: this.product_manager.isFloat(p.name)
-      }
-    }).filter(e => !e.float)[0]
+    return this.product_manager.getNearestProducts(this.customer, this.product_limit)[0]
   }
 
   public selectProduct(product): void {
     this.customer.update(product)
   }
-  ngOnInit() {
+  public selectFloatProduct(product): void {
+    this.customer.updateFloat(product)
+  }
+  constructor() {
     this.product_manager = new ProductManager()
     this.customer = new Customer(this.product_manager)
 
-    product_f.data.forEach(element => {
+    for (let element of product_f.data)
       this.product_manager.addFloatProduct({
         name: element.name,
         price: element.price,
+        src: element.src,
         point: undefined
       })
-    })
 
-    product_s.data.forEach(element => {
+    for (let element of product_s.data)
       this.product_manager.addProduct({
         name: element.name,
         price: element.price,
+        src: element.src,
         point: {
           homme: element.profiling.homme,
           femme: element.profiling.femme,
@@ -86,6 +92,7 @@ export class AppComponent implements OnInit {
           plus_50: element.profiling.plus_50,
         }
       })
-    });
+    this.dom_ready = true
   }
+
 }

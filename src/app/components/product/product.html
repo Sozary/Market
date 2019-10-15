@@ -14,9 +14,11 @@
          <div class="col mr-2">
            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{product.name}}</div>
            <div class="h5 mb-0 font-weight-bold text-gray-800">{{product.price}}€</div>
+
          </div>
          <div class="col-auto">
-           <i class="fas fa-calendar fa-2x text-gray-300"></i>
+           <i class="fas fa-calendar fa-2x text-gray-300">
+             <img style="width: 100px;height: 100px" [src]="product.src" class="product-img"></i>
          </div>
        </div>
      </div>
