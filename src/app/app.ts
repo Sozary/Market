@@ -94,9 +94,19 @@ export class AppComponent {
           plus_50: element.profiling.plus_50,
         }
       })
+    if ('serviceWorker' in navigator) {
+      Notification.requestPermission(permission => {
+          if (!('permission' in Notification)) {
+            Notification.permission = permission;
+          }
+          return permission;
+        }).then(() =>
+          navigator.serviceWorker.register('/src/app/service-worker.js'))
+        .catch(console.error);
+    } else {
+      console.warn('Le navigateur ne prend pas en charge les services worker');
+    }
     this.dom_ready = true
-
-
   }
 
 }
