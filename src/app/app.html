@@ -10,7 +10,21 @@
       </div>
     </div>
   </div>
-  <div class="row" *ngIf="dom_ready">
+
+  <div class="row" @products *ngIf="dom_ready && risk">
+    <div class="col">
+      <div class="card shadow mb-4 custom-card">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Risques encourus avec les sites d'e-commerce</h6>
+        </div>
+        <div class="card-body" style="text-align: center">
+          <img src="./../assets/images/risk.jpg" width="100%" alt="">
+          <button type="button" class="btn btn-danger" (click)="risk = false">Accepter les risques</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="dom_ready && !risk">
     <div class="" [className]="!numberClickedProduct?'col-12':' col-xl-8 col-md-7 '">
       <div class="row">
         <div class="col">

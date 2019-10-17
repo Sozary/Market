@@ -2,13 +2,77 @@
    <div class="card shadow h-100 py-2" [className]="'card shadow h-100 py-2 border-left-'+type">
      <div class="card-body">
        <div class="info" *ngIf="product.point">
-         <p>Homme: {{product.point.homme}}</p>
-         <p>Femme: {{product.point.femme}}</p>
-         <p>CSP +: {{product.point.csp_plus}}</p>
-         <p>CSP -: {{product.point.csp_moins}}</p>
-         <p>-25 ans: {{product.point.moins_25}}</p>
-         <p>-50 ans: {{product.point.moins_50}}</p>
-         <p>+50 ans: {{product.point.plus_50}}</p>
+
+         <div class="form-group row">
+           <div class="col-8">
+             Homme:
+           </div>
+           <div class="col-3">
+             <input *ngIf="type==='danger'" type="number" style="min-width: 60px" class="form-control"
+               placeholder="homme" [value]="product.point.homme">
+             <span *ngIf="type!=='danger'">{{product.point.homme}}</span>
+           </div>
+         </div>
+         <div class="form-group row">
+           <div class="col-8">
+             Femme:
+           </div>
+           <div class="col-3">
+             <input type="number" *ngIf="type==='danger'" class="form-control" style="min-width: 60px"
+               placeholder="femme" [value]="product.point.femme">
+             <span *ngIf="type!=='danger'">{{product.point.femme}}</span>
+           </div>
+         </div>
+         <div class="form-group row">
+           <div class="col-8">
+             CSP +:
+           </div>
+           <div class="col-3">
+             <input type="number" *ngIf="type==='danger'" class="form-control" style="min-width: 60px"
+               placeholder="csp+" [value]="product.point.csp_plus">
+             <span *ngIf="type!=='danger'">{{product.point.csp_plus}}</span>
+           </div>
+         </div>
+         <div class="form-group row">
+           <div class="col-8">
+             CSP -:
+           </div>
+           <div class="col-3">
+             <input type="number" *ngIf="type==='danger'" class="form-control" style="min-width: 60px"
+               placeholder="csp-" [value]="product.point.csp_moins">
+             <span *ngIf="type!=='danger'">{{product.point.csp_moins}}</span>
+           </div>
+         </div>
+         <div class="form-group row">
+           <div class="col-8">
+             -25 ans:
+           </div>
+           <div class="col-3">
+             <input type="number" *ngIf="type==='danger'" class="form-control" style="min-width: 60px" placeholder="-25"
+               [value]="product.point.moins_25">
+             <span *ngIf="type!=='danger'">{{product.point.moins_25}}</span>
+           </div>
+         </div>
+         <div class="form-group row">
+           <div class="col-8">
+             -50 ans:
+           </div>
+           <div class="col-3">
+             <input type="number" *ngIf="type==='danger'" class="form-control" style="min-width: 60px" placeholder="-50"
+               [value]="product.point.moins_50">
+             <span *ngIf="type!=='danger'">{{product.point.moins_50}}</span>
+           </div>
+         </div>
+         <div class=" row">
+           <div class="col-8">
+             +50 ans:
+           </div>
+           <div class="col-3">
+             <input type="number" *ngIf="type==='danger'" class="form-control" style="min-width: 60px" placeholder="+50"
+               [value]="product.point.plus_50">
+             <span *ngIf="type!=='danger'">{{product.point.plus_50}}</span>
+           </div>
+         </div>
        </div>
        <div class="row no-gutters align-items-center">
          <div class="col mr-2">
@@ -18,7 +82,7 @@
          </div>
          <div class="col-auto">
            <i class="fas fa-calendar fa-2x text-gray-300">
-             <img style="width: 100px;height: 100px" [src]="product.src" class="product-img"></i>
+             <img [src]="product.src"></i>
          </div>
        </div>
      </div>

@@ -36,6 +36,7 @@ import {
   ]
 })
 export class AppComponent {
+  public risk: boolean = false
   public product_manager: ProductManager
   public customer: Customer
   public dom_ready: boolean = false
@@ -51,6 +52,7 @@ export class AppComponent {
       return e
     })
   }
+
   get products(): IProduct[] {
     return this.product_manager.getNearestProducts(this.customer, this.product_limit)
   }
@@ -93,6 +95,8 @@ export class AppComponent {
         }
       })
     this.dom_ready = true
+
+
   }
 
 }
