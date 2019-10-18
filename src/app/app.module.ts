@@ -4,6 +4,9 @@ import {
 import {
   NgModule
 } from '@angular/core'
+import {
+  FormsModule
+} from "@angular/forms";
 
 import {
   BrowserAnimationsModule
@@ -19,8 +22,10 @@ import {
 
 @NgModule({
   declarations: [AppComponent, ProductComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, ],
+  imports: [BrowserModule, BrowserAnimationsModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+
+}

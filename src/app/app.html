@@ -59,7 +59,7 @@
       </div>
       <div @products class="row" *ngIf="numberClickedProduct">
         <div class="col">
-          <product @products *ngFor="let float of floats" [product]="float" [type]="'danger'"
+          <product @products *ngFor="let float of floats" (value_changed)="valueChanged($event)" [product]="float" [type]="'danger'"
             (click)="selectFloatProduct(float)">
           </product>
         </div>

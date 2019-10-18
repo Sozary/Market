@@ -15,6 +15,7 @@ import {
   style,
   animate
 } from '@angular/animations';
+import PushNotification from './classes/PushNotification';
 
 
 @Component({
@@ -42,6 +43,8 @@ export class AppComponent {
   public dom_ready: boolean = false
   private product_limit: number = 10
 
+  private notification: PushNotification
+
   get numberClickedProduct(): number {
     return this.customer.featured.length
   }
@@ -57,6 +60,10 @@ export class AppComponent {
     return this.product_manager.getNearestProducts(this.customer, this.product_limit)
   }
 
+  public valueChanged(event) {
+    this.notification.showLocalNotification("Produit flottant", "Tu as modifié les valeurs du produit: " + event)
+  }
+
   get fav_product(): IProduct {
     return this.product_manager.getNearestProducts(this.customer, this.product_limit)[0]
   }
@@ -65,6 +72,7 @@ export class AppComponent {
     this.customer.update(product)
   }
   public selectFloatProduct(product): void {
+
     this.customer.updateFloat(product)
   }
   constructor() {
@@ -94,19 +102,35 @@ export class AppComponent {
           plus_50: element.profiling.plus_50,
         }
       })
-    if ('serviceWorker' in navigator) {
-      Notification.requestPermission(permission => {
-          if (!('permission' in Notification)) {
-            Notification.permission = permission;
-          }
-          return permission;
-        }).then(() =>
-          navigator.serviceWorker.register('/src/app/service-worker.js'))
-        .catch(console.error);
-    } else {
-      console.warn('Le navigateur ne prend pas en charge les services worker');
+    try {
+      this.notification = new PushNotification()
+    } catch (e) {
+      alert("Le service worker ne fonctionne pas.\n" + e)
     }
-    this.dom_ready = true
+    (async () => {
+      try {
+        await this.notification.register();
+        await this.notification.grantPermission()
+        this.dom_ready = true
+      } catch (error) {
+        alert("Le service worker ne fonctionne pas.\n" + error)
+      }
+    })()
+  }
+
+  private urlB64ToUint8Array(base64String): Uint8Array {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+      .replace(/\-/g, '+')
+      .replace(/_/g, '/');
+
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
   }
 
 }
