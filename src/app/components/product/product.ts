@@ -15,12 +15,12 @@ import $ from "jquery"
 export class ProductComponent {
 
   @Output()
-  private value_changed = new EventEmitter < string > ();
+  public value_changed = new EventEmitter < string > ();
 
   @Input()
-  private type
+  public type
 
-  private product
+  public product
 
   changeProduct(product) {
     this.value_changed.emit(product.name)
